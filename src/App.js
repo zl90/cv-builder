@@ -93,6 +93,13 @@ class Content extends React.Component {
 
     this.updateEducationTitle = this.updateEducationTitle.bind(this);
     this.updateEducationSchool = this.updateEducationSchool.bind(this);
+    this.updateEducationDateFrom = this.updateEducationDateFrom.bind(this);
+    this.updateEducationDateTo = this.updateEducationDateTo.bind(this);
+
+    this.updateExperienceTitle = this.updateExperienceTitle.bind(this);
+    this.updateExperienceEmployer = this.updateExperienceEmployer.bind(this);
+    this.updateExperienceDateFrom = this.updateExperienceDateFrom.bind(this);
+    this.updateExperienceDateTo = this.updateExperienceDateTo.bind(this);
   }
 
   updatePersonalInfoFirstName = (newValue) => {
@@ -223,6 +230,90 @@ class Content extends React.Component {
     });
   };
 
+  updateExperienceTitle = (newValue, index) => {
+    const newExperienceArray = this.state.experience.map((object, i) => {
+      if (i === index) {
+        return {
+          title: newValue,
+          employer: object.employer,
+          dateFrom: object.dateFrom,
+          dateTo: object.dateTo,
+          key: object.id,
+          id: object.id,
+        };
+      } else {
+        return object;
+      }
+    });
+
+    this.setState({
+      experience: newExperienceArray,
+    });
+  };
+
+  updateExperienceEmployer = (newValue, index) => {
+    const newExperienceArray = this.state.experience.map((object, i) => {
+      if (i === index) {
+        return {
+          title: object.title,
+          employer: newValue,
+          dateFrom: object.dateFrom,
+          dateTo: object.dateTo,
+          key: object.id,
+          id: object.id,
+        };
+      } else {
+        return object;
+      }
+    });
+
+    this.setState({
+      experience: newExperienceArray,
+    });
+  };
+
+  updateExperienceDateFrom = (newValue, index) => {
+    const newExperienceArray = this.state.experience.map((object, i) => {
+      if (i === index) {
+        return {
+          title: object.title,
+          employer: object.employer,
+          dateFrom: newValue,
+          dateTo: object.dateTo,
+          key: object.id,
+          id: object.id,
+        };
+      } else {
+        return object;
+      }
+    });
+
+    this.setState({
+      experience: newExperienceArray,
+    });
+  };
+
+  updateExperienceDateTo = (newValue, index) => {
+    const newExperienceArray = this.state.experience.map((object, i) => {
+      if (i === index) {
+        return {
+          title: object.title,
+          employer: object.employer,
+          dateFrom: object.dateFrom,
+          dateTo: newValue,
+          key: object.id,
+          id: object.id,
+        };
+      } else {
+        return object;
+      }
+    });
+
+    this.setState({
+      experience: newExperienceArray,
+    });
+  };
+
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -247,7 +338,19 @@ class Content extends React.Component {
           );
         })}
         <AddEducation state={this.state}></AddEducation>
-        <WorkExperience state={this.state}></WorkExperience>
+        {this.state.experience.map((object, i) => {
+          return (
+            <WorkExperience
+              state={this.state}
+              updateTitle={this.updateExperienceTitle}
+              updateEmployer={this.updateExperienceEmployer}
+              updateDateFrom={this.updateExperienceDateFrom}
+              updateDateTo={this.updateExperienceDateTo}
+              index={i}
+              key={object.id}
+            ></WorkExperience>
+          );
+        })}
         <AddExperience state={this.state}></AddExperience>
         <CreateCV state={this.state}></CreateCV>
       </Box>
@@ -443,6 +546,25 @@ class AddEducation extends React.Component {
 }
 
 class WorkExperience extends React.Component {
+  handleUpdate = (event) => {
+    switch (event.target.id) {
+      default:
+        break;
+      case "title":
+        this.props.updateTitle(event.target.value, this.props.index);
+        break;
+      case "employer":
+        this.props.updateEmployer(event.target.value, this.props.index);
+        break;
+      case "dateFrom":
+        this.props.updateDateFrom(event.target.value, this.props.index);
+        break;
+      case "dateTo":
+        this.props.updateDateTo(event.target.value, this.props.index);
+        break;
+    }
+  };
+
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
@@ -467,15 +589,17 @@ class WorkExperience extends React.Component {
             }}
           >
             <TextField
-              id="occupationTitle"
+              id="title"
               label="Title of occupation"
               variant="outlined"
+              onChange={this.handleUpdate}
               required
             />
             <TextField
               id="employer"
               label="Employer"
               variant="outlined"
+              onChange={this.handleUpdate}
               required
             />
           </Box>
@@ -489,6 +613,7 @@ class WorkExperience extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={this.handleUpdate}
             />
             <TextField
               id="dateTo"
@@ -499,6 +624,7 @@ class WorkExperience extends React.Component {
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={this.handleUpdate}
             />
           </Box>
           <Divider></Divider>
