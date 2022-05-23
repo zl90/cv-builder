@@ -16,6 +16,7 @@ import Stack from "@mui/material/Stack";
 import { format } from "date-fns";
 import uniqid from "uniqid";
 import { blue } from "@mui/material/colors";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 class App extends React.Component {
   render() {
@@ -69,6 +70,8 @@ class Content extends React.Component {
           dateFrom: format(new Date(), "yyyy-MM-dd"),
           dateTo: format(new Date(), "yyyy-MM-dd"),
           key: "",
+          deleteButtonKey: uniqid(),
+          parentDivKey: uniqid(),
         },
       ],
       experience: [
@@ -79,6 +82,8 @@ class Content extends React.Component {
           dateFrom: format(new Date(), "yyyy-MM-dd"),
           dateTo: format(new Date(), "yyyy-MM-dd"),
           key: "",
+          deleteButtonKey: uniqid(),
+          parentDivKey: uniqid(),
         },
       ],
     };
@@ -100,7 +105,49 @@ class Content extends React.Component {
     this.updateExperienceEmployer = this.updateExperienceEmployer.bind(this);
     this.updateExperienceDateFrom = this.updateExperienceDateFrom.bind(this);
     this.updateExperienceDateTo = this.updateExperienceDateTo.bind(this);
+
+    this.addEducation = this.addEducation.bind(this);
+    this.addExperience = this.addExperience.bind(this);
+
+    this.deleteExperience = this.deleteExperience.bind(this);
+    this.deleteEducation = this.deleteEducation.bind(this);
   }
+
+  addEducation = () => {
+    this.setState({
+      education: [
+        ...this.state.education,
+        {
+          id: uniqid(),
+          title: "",
+          school: "",
+          dateFrom: format(new Date(), "yyyy-MM-dd"),
+          dateTo: format(new Date(), "yyyy-MM-dd"),
+          key: "",
+          deleteButtonKey: uniqid(),
+          parentDivKey: uniqid(),
+        },
+      ],
+    });
+  };
+
+  addExperience = () => {
+    this.setState({
+      experience: [
+        ...this.state.experience,
+        {
+          id: uniqid(),
+          title: "",
+          employer: "",
+          dateFrom: format(new Date(), "yyyy-MM-dd"),
+          dateTo: format(new Date(), "yyyy-MM-dd"),
+          key: "",
+          deleteButtonKey: uniqid(),
+          parentDivKey: uniqid(),
+        },
+      ],
+    });
+  };
 
   updatePersonalInfoFirstName = (newValue) => {
     this.setState({
@@ -156,6 +203,8 @@ class Content extends React.Component {
           dateTo: object.dateTo,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -177,6 +226,8 @@ class Content extends React.Component {
           dateTo: object.dateTo,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -198,6 +249,8 @@ class Content extends React.Component {
           dateTo: object.dateTo,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -219,6 +272,8 @@ class Content extends React.Component {
           dateTo: newValue,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -240,6 +295,8 @@ class Content extends React.Component {
           dateTo: object.dateTo,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -261,6 +318,8 @@ class Content extends React.Component {
           dateTo: object.dateTo,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -282,6 +341,8 @@ class Content extends React.Component {
           dateTo: object.dateTo,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -303,6 +364,8 @@ class Content extends React.Component {
           dateTo: newValue,
           key: object.id,
           id: object.id,
+          deleteButtonKey: object.deleteButtonKey,
+          parentDivKey: object.parentDivKey,
         };
       } else {
         return object;
@@ -311,6 +374,26 @@ class Content extends React.Component {
 
     this.setState({
       experience: newExperienceArray,
+    });
+  };
+
+  deleteExperience = (idToDelete) => {
+    const newArray = this.state.experience.filter((object, i) => {
+      return object.id !== idToDelete;
+    });
+
+    this.setState({
+      experience: newArray,
+    });
+  };
+
+  deleteEducation = (idToDelete) => {
+    const newArray = this.state.education.filter((object, i) => {
+      return object.id !== idToDelete;
+    });
+
+    this.setState({
+      education: newArray,
     });
   };
 
@@ -326,34 +409,97 @@ class Content extends React.Component {
         ></PersonalInfo>
         {this.state.education.map((object, i) => {
           return (
-            <Education
-              state={this.state}
-              updateTitle={this.updateEducationTitle}
-              updateSchool={this.updateEducationSchool}
-              updateDateFrom={this.updateEducationDateFrom}
-              updateDateTo={this.updateEducationDateTo}
-              index={i}
-              key={object.id}
-            ></Education>
+            <div key={object.parentDivKey}>
+              <Education
+                state={this.state}
+                updateTitle={this.updateEducationTitle}
+                updateSchool={this.updateEducationSchool}
+                updateDateFrom={this.updateEducationDateFrom}
+                updateDateTo={this.updateEducationDateTo}
+                index={i}
+                key={object.id}
+              ></Education>
+              <EducationButtonPanel
+                state={this.state}
+                key={object.deleteButtonKey}
+                idtodelete={object.id}
+                index={i}
+                add={this.addEducation}
+                deleteEducation={this.deleteEducation}
+              ></EducationButtonPanel>
+            </div>
           );
         })}
-        <AddEducation state={this.state}></AddEducation>
         {this.state.experience.map((object, i) => {
           return (
-            <WorkExperience
-              state={this.state}
-              updateTitle={this.updateExperienceTitle}
-              updateEmployer={this.updateExperienceEmployer}
-              updateDateFrom={this.updateExperienceDateFrom}
-              updateDateTo={this.updateExperienceDateTo}
-              index={i}
-              key={object.id}
-            ></WorkExperience>
+            <div key={object.parentDivKey}>
+              <WorkExperience
+                state={this.state}
+                updateTitle={this.updateExperienceTitle}
+                updateEmployer={this.updateExperienceEmployer}
+                updateDateFrom={this.updateExperienceDateFrom}
+                updateDateTo={this.updateExperienceDateTo}
+                index={i}
+                key={object.id}
+              ></WorkExperience>
+              <ExperienceButtonPanel
+                state={this.state}
+                key={object.deleteButtonKey}
+                idtodelete={object.id}
+                index={i}
+                add={this.addExperience}
+                deleteExperience={this.deleteExperience}
+              ></ExperienceButtonPanel>
+            </div>
           );
         })}
-        <AddExperience state={this.state}></AddExperience>
+
         <CreateCV state={this.state}></CreateCV>
       </Box>
+    );
+  }
+}
+
+class ExperienceButtonPanel extends React.Component {
+  render() {
+    return (
+      <div>
+        <AddExperience
+          state={this.props.state}
+          add={this.props.add}
+        ></AddExperience>
+        {this.props.index > 0 && (
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            onClick={() => this.props.deleteExperience(this.props.idtodelete)}
+          >
+            Delete
+          </Button>
+        )}
+      </div>
+    );
+  }
+}
+
+class EducationButtonPanel extends React.Component {
+  render() {
+    return (
+      <div>
+        <AddEducation
+          state={this.props.state}
+          add={this.props.add}
+        ></AddEducation>
+        {this.props.index > 0 && (
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            onClick={() => this.props.deleteEducation(this.props.idtodelete)}
+          >
+            Delete
+          </Button>
+        )}
+      </div>
     );
   }
 }
@@ -534,10 +680,14 @@ class Education extends React.Component {
 }
 
 class AddEducation extends React.Component {
+  add = () => {
+    this.props.add();
+  };
+
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
-        <Button variant="contained" sx={{ width: "150px" }}>
+        <Button variant="contained" sx={{ width: "150px" }} onClick={this.add}>
           Add
         </Button>
       </Box>
@@ -635,10 +785,14 @@ class WorkExperience extends React.Component {
 }
 
 class AddExperience extends React.Component {
+  add = () => {
+    this.props.add();
+  };
+
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
-        <Button variant="contained" sx={{ width: "150px" }}>
+        <Button variant="contained" sx={{ width: "150px" }} onClick={this.add}>
           Add
         </Button>
       </Box>
