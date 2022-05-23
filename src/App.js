@@ -61,6 +61,7 @@ class Content extends React.Component {
     super();
 
     this.state = {
+      previewButtonClicked: false,
       personalInfo: { firstName: "", lastName: "", email: "", phoneNumber: "" },
       education: [
         {
@@ -111,6 +112,8 @@ class Content extends React.Component {
 
     this.deleteExperience = this.deleteExperience.bind(this);
     this.deleteEducation = this.deleteEducation.bind(this);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addEducation = () => {
@@ -397,9 +400,22 @@ class Content extends React.Component {
     });
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({
+      previewButtonClicked: true,
+    });
+  };
+
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box
+        component="form"
+        autoComplete="off"
+        sx={{ flexGrow: 1 }}
+        className="form-1"
+        onSubmit={this.handleSubmit}
+      >
         <PersonalInfo
           state={this.state}
           updateFirstName={this.updatePersonalInfoFirstName}
@@ -407,6 +423,10 @@ class Content extends React.Component {
           updateEmail={this.updatePersonalInfoEmail}
           updatePhoneNumber={this.updatePersonalInfoPhoneNumber}
         ></PersonalInfo>
+        <Typography variant="h5" component="div">
+          Education
+        </Typography>
+        <Divider></Divider>
         {this.state.education.map((object, i) => {
           return (
             <div key={object.parentDivKey}>
@@ -430,6 +450,11 @@ class Content extends React.Component {
             </div>
           );
         })}
+        <AddEducation state={this.state} add={this.addEducation}></AddEducation>
+        <Typography variant="h5" component="div">
+          Work Experience
+        </Typography>
+        <Divider></Divider>
         {this.state.experience.map((object, i) => {
           return (
             <div key={object.parentDivKey}>
@@ -453,6 +478,10 @@ class Content extends React.Component {
             </div>
           );
         })}
+        <AddExperience
+          state={this.state}
+          add={this.addExperience}
+        ></AddExperience>
 
         <CreateCV state={this.state}></CreateCV>
       </Box>
@@ -464,10 +493,6 @@ class ExperienceButtonPanel extends React.Component {
   render() {
     return (
       <div>
-        <AddExperience
-          state={this.props.state}
-          add={this.props.add}
-        ></AddExperience>
         {this.props.index > 0 && (
           <Button
             variant="outlined"
@@ -486,10 +511,6 @@ class EducationButtonPanel extends React.Component {
   render() {
     return (
       <div>
-        <AddEducation
-          state={this.props.state}
-          add={this.props.add}
-        ></AddEducation>
         {this.props.index > 0 && (
           <Button
             variant="outlined"
@@ -611,10 +632,6 @@ class Education extends React.Component {
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="h5" component="div">
-          Education
-        </Typography>
-        <Divider></Divider>
         <Box
           sx={{
             flexGrow: 1,
@@ -718,10 +735,6 @@ class WorkExperience extends React.Component {
   render() {
     return (
       <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="h5" component="div">
-          Work Experience
-        </Typography>
-        <Divider></Divider>
         <Box
           sx={{
             flexGrow: 1,
@@ -807,17 +820,45 @@ class CreateCV extends React.Component {
         <Typography variant="h5" component="div">
           Create your CV
         </Typography>
-        <Button
-          variant="contained"
-          sx={{ width: "150px", backgroundColor: "#3f51b5" }}
-        >
-          Preview
-        </Button>
+        <PreviewButton state={this.props.state}></PreviewButton>
         <Typography variant="subtitle1" component="div">
           Complete all fields and continue!
         </Typography>
+        <PreviewCV state={this.props.state}></PreviewCV>
       </Box>
     );
+  }
+}
+
+class PreviewButton extends React.Component {
+  render() {
+    return (
+      <Button
+        variant="contained"
+        type="submit"
+        sx={{ width: "150px", backgroundColor: "#3f51b5" }}
+      >
+        Preview
+      </Button>
+    );
+  }
+}
+
+class PreviewCV extends React.Component {
+  render() {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        {this.props.state.previewButtonClicked && (
+          <PersonalInfoPreview></PersonalInfoPreview>
+        )}
+      </Box>
+    );
+  }
+}
+
+class PersonalInfoPreview extends React.Component {
+  render() {
+    return <Typography>This is where the preview goes</Typography>;
   }
 }
 
