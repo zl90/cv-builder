@@ -822,9 +822,11 @@ class CreateCV extends React.Component {
         </Typography>
         <PreviewButton state={this.props.state}></PreviewButton>
         <Typography variant="subtitle1" component="div">
-          Complete all fields and continue!
+          View your CV below!
         </Typography>
-        <PreviewCV state={this.props.state}></PreviewCV>
+        {this.props.state.previewButtonClicked && (
+          <PreviewCV state={this.props.state}></PreviewCV>
+        )}
       </Box>
     );
   }
@@ -847,10 +849,17 @@ class PreviewButton extends React.Component {
 class PreviewCV extends React.Component {
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
-        {this.props.state.previewButtonClicked && (
-          <PersonalInfoPreview></PersonalInfoPreview>
-        )}
+      <Box
+        sx={{
+          flexGrow: 1,
+          margin: "16px",
+          border: "1px solid lightgray",
+          borderRadius: "5px",
+          padding: "10px",
+        }}
+      >
+        <PersonalInfoPreview state={this.props.state}></PersonalInfoPreview>
+        <EducationPreview state={this.props.state}></EducationPreview>
       </Box>
     );
   }
@@ -858,7 +867,96 @@ class PreviewCV extends React.Component {
 
 class PersonalInfoPreview extends React.Component {
   render() {
-    return <Typography>This is where the preview goes</Typography>;
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography variant="h4">Personal Information</Typography>
+        <Divider></Divider>
+        <Typography variant="h5">
+          {this.props.state.personalInfo.firstName}{" "}
+          {this.props.state.personalInfo.lastName}
+        </Typography>
+        <Typography variant="h6">
+          {this.props.state.personalInfo.email}
+        </Typography>
+        <Typography variant="h6">
+          {this.props.state.personalInfo.phoneNumber}
+        </Typography>
+        <Divider></Divider>
+      </Box>
+    );
+  }
+}
+
+class EducationPreview extends React.Component {
+  render() {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography variant="h4">Education</Typography>
+        <Divider></Divider>
+        {this.props.state.education.map((object, i) => {
+          return (
+            <EducationPreviewItem
+              state={this.props.state}
+              index={i}
+              key={uniqid()}
+            ></EducationPreviewItem>
+          );
+        })}
+        <Typography variant="h4">Experience</Typography>
+        <Divider></Divider>
+        {this.props.state.experience.map((object, i) => {
+          return (
+            <ExperiencePreviewItem
+              state={this.props.state}
+              index={i}
+              key={uniqid()}
+            ></ExperiencePreviewItem>
+          );
+        })}
+      </Box>
+    );
+  }
+}
+
+class EducationPreviewItem extends React.Component {
+  render() {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography variant="h6">
+          {this.props.state.education[this.props.index].title}
+        </Typography>
+        <Typography variant="h6">
+          {this.props.state.education[this.props.index].school}
+        </Typography>
+        <Typography>
+          {this.props.state.education[this.props.index].dateFrom +
+            " - " +
+            this.props.state.education[this.props.index].dateTo}
+        </Typography>
+        <Divider></Divider>
+      </Box>
+    );
+  }
+}
+
+class ExperiencePreviewItem extends React.Component {
+  render() {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography variant="h6">
+          {this.props.state.experience[this.props.index].title}
+        </Typography>
+        <Typography variant="h6">
+          {this.props.state.experience[this.props.index].employer}
+        </Typography>
+        <Typography>
+          {this.props.state.experience[this.props.index].dateFrom +
+            " - " +
+            this.props.state.experience[this.props.index].dateTo}
+        </Typography>
+        <Divider></Divider>
+      </Box>
+    );
   }
 }
 
