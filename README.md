@@ -17,6 +17,7 @@ I built this app to get familiar with the following concepts:
 - React - building forms using Class Components
 - React - maintaining and manipulating state
 - Using [MUI](https://mui.com/), a Component library for React
+- [Deploying](https://medium.com/@isharamalaviarachchi/how-to-deploy-your-react-app-into-github-pages-b2c96292b18e) React apps to Github Pages
 
 ### Tech used
 - Javascript
