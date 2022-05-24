@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Z-CV: The no-nonsense CV generator!
+A simple CV generator which lets the user input their details, then preview their CV.
+This project was created with React JS and MUI.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### [Live Demo](https://zl90.github.io/cv-builder)
 
-## Available Scripts
+## Screenshots
+### Desktop View
+![Desktop View](https://zl90.github.io/cv-builder/desktop-view.png)
 
-In the project directory, you can run:
+### Mobile View
+![Mobile View](https://zl90.github.io/cv-builder/mobile-view.png)
 
-### `npm start`
+## Overview
+I built this app to get familiar with the following concepts:
+- Setting up a development environment for React projects
+- React - building forms using Class Components
+- React - maintaining and manipulating state
+- Using [MUI](https://mui.com/), a Component library for React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Tech used
+- Javascript
+- Webpack
+- npm
+- Prettier + ESLint
+- ![MUI](https://mui.com/)
+- ![React JS](https://reactjs.org/)
+- ![uniqid](https://www.npmjs.com/package/uniqid) (Generating unique keys for lists of React Components)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Lessons learned
+- I quickly learned that rendering lists of React Components doesn't work without a safe method of generating unique keys. For this, I found a useful tool called ![uniqid](https://www.npmjs.com/package/uniqid).
+- I learned the importance of carefully organising my code into React Components, instead of trying to build entire Components on one level of nesting. The latter approach made my code difficult to read, and actually caused a lot of errors when trying to render these bulky Components.
+- Prop drilling makes React difficult to work with. I will be fixing this in the future by using the [Context API](https://reactjs.org/docs/context.html).
