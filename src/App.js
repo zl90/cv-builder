@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import uniqid from "uniqid";
 import { blue } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
 
 class App extends React.Component {
   render() {
@@ -44,7 +45,7 @@ class Header extends React.Component {
             }}
           >
             <Typography variant="h4" component="div">
-              ZCV
+              Z-CV
             </Typography>
             <Typography variant="subtitle" component="div">
               Create your CV!
@@ -409,82 +410,87 @@ class Content extends React.Component {
 
   render() {
     return (
-      <Box
-        component="form"
-        autoComplete="off"
-        sx={{ flexGrow: 1 }}
-        className="form-1"
-        onSubmit={this.handleSubmit}
-      >
-        <PersonalInfo
-          state={this.state}
-          updateFirstName={this.updatePersonalInfoFirstName}
-          updateLastName={this.updatePersonalInfoLastName}
-          updateEmail={this.updatePersonalInfoEmail}
-          updatePhoneNumber={this.updatePersonalInfoPhoneNumber}
-        ></PersonalInfo>
-        <Typography variant="h5" component="div">
-          Education
-        </Typography>
-        <Divider></Divider>
-        {this.state.education.map((object, i) => {
-          return (
-            <div key={object.parentDivKey}>
-              <Education
-                state={this.state}
-                updateTitle={this.updateEducationTitle}
-                updateSchool={this.updateEducationSchool}
-                updateDateFrom={this.updateEducationDateFrom}
-                updateDateTo={this.updateEducationDateTo}
-                index={i}
-                key={object.id}
-              ></Education>
-              <EducationButtonPanel
-                state={this.state}
-                key={object.deleteButtonKey}
-                idtodelete={object.id}
-                index={i}
-                add={this.addEducation}
-                deleteEducation={this.deleteEducation}
-              ></EducationButtonPanel>
-            </div>
-          );
-        })}
-        <AddEducation state={this.state} add={this.addEducation}></AddEducation>
-        <Typography variant="h5" component="div">
-          Work Experience
-        </Typography>
-        <Divider></Divider>
-        {this.state.experience.map((object, i) => {
-          return (
-            <div key={object.parentDivKey}>
-              <WorkExperience
-                state={this.state}
-                updateTitle={this.updateExperienceTitle}
-                updateEmployer={this.updateExperienceEmployer}
-                updateDateFrom={this.updateExperienceDateFrom}
-                updateDateTo={this.updateExperienceDateTo}
-                index={i}
-                key={object.id}
-              ></WorkExperience>
-              <ExperienceButtonPanel
-                state={this.state}
-                key={object.deleteButtonKey}
-                idtodelete={object.id}
-                index={i}
-                add={this.addExperience}
-                deleteExperience={this.deleteExperience}
-              ></ExperienceButtonPanel>
-            </div>
-          );
-        })}
-        <AddExperience
-          state={this.state}
-          add={this.addExperience}
-        ></AddExperience>
+      <div className="content-container">
+        <Box
+          component="form"
+          autoComplete="off"
+          sx={{ flexGrow: 1 }}
+          className="form-1"
+          onSubmit={this.handleSubmit}
+        >
+          <PersonalInfo
+            state={this.state}
+            updateFirstName={this.updatePersonalInfoFirstName}
+            updateLastName={this.updatePersonalInfoLastName}
+            updateEmail={this.updatePersonalInfoEmail}
+            updatePhoneNumber={this.updatePersonalInfoPhoneNumber}
+          ></PersonalInfo>
+          <Typography variant="h5" component="div">
+            Education
+          </Typography>
+          <Divider></Divider>
+          {this.state.education.map((object, i) => {
+            return (
+              <div key={object.parentDivKey}>
+                <Education
+                  state={this.state}
+                  updateTitle={this.updateEducationTitle}
+                  updateSchool={this.updateEducationSchool}
+                  updateDateFrom={this.updateEducationDateFrom}
+                  updateDateTo={this.updateEducationDateTo}
+                  index={i}
+                  key={object.id}
+                ></Education>
+                <EducationButtonPanel
+                  state={this.state}
+                  key={object.deleteButtonKey}
+                  idtodelete={object.id}
+                  index={i}
+                  add={this.addEducation}
+                  deleteEducation={this.deleteEducation}
+                ></EducationButtonPanel>
+              </div>
+            );
+          })}
+          <AddEducation
+            state={this.state}
+            add={this.addEducation}
+          ></AddEducation>
+          <Typography variant="h5" component="div">
+            Work Experience
+          </Typography>
+          <Divider></Divider>
+          {this.state.experience.map((object, i) => {
+            return (
+              <div key={object.parentDivKey}>
+                <WorkExperience
+                  state={this.state}
+                  updateTitle={this.updateExperienceTitle}
+                  updateEmployer={this.updateExperienceEmployer}
+                  updateDateFrom={this.updateExperienceDateFrom}
+                  updateDateTo={this.updateExperienceDateTo}
+                  index={i}
+                  key={object.id}
+                ></WorkExperience>
+                <ExperienceButtonPanel
+                  state={this.state}
+                  key={object.deleteButtonKey}
+                  idtodelete={object.id}
+                  index={i}
+                  add={this.addExperience}
+                  deleteExperience={this.deleteExperience}
+                ></ExperienceButtonPanel>
+              </div>
+            );
+          })}
+          <AddExperience
+            state={this.state}
+            add={this.addExperience}
+          ></AddExperience>
 
-        <CreateCV state={this.state}></CreateCV>
-      </Box>
+          <CreateCV state={this.state}></CreateCV>
+        </Box>
+      </div>
     );
   }
 }
@@ -494,13 +500,19 @@ class ExperienceButtonPanel extends React.Component {
     return (
       <div>
         {this.props.index > 0 && (
-          <Button
-            variant="outlined"
-            startIcon={<DeleteIcon />}
-            onClick={() => this.props.deleteExperience(this.props.idtodelete)}
-          >
-            Delete
-          </Button>
+          <div className="delete-button-container">
+            <Button
+              size="large"
+              variant="outlined"
+              color="error"
+              className="delete-button"
+              startIcon={<DeleteIcon />}
+              onClick={() => this.props.deleteExperience(this.props.idtodelete)}
+            >
+              Delete
+            </Button>
+            <Divider></Divider>
+          </div>
         )}
       </div>
     );
@@ -512,13 +524,19 @@ class EducationButtonPanel extends React.Component {
     return (
       <div>
         {this.props.index > 0 && (
-          <Button
-            variant="outlined"
-            startIcon={<DeleteIcon />}
-            onClick={() => this.props.deleteEducation(this.props.idtodelete)}
-          >
-            Delete
-          </Button>
+          <div className="delete-button-container">
+            <Button
+              size="large"
+              variant="outlined"
+              className="delete-button"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={() => this.props.deleteEducation(this.props.idtodelete)}
+            >
+              Delete
+            </Button>
+            <Divider></Divider>
+          </div>
         )}
       </div>
     );
@@ -547,7 +565,7 @@ class PersonalInfo extends React.Component {
 
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box className="personal-info-form" sx={{ flexGrow: 1 }}>
         <Typography variant="h5" component="div">
           Personal Information
         </Typography>
@@ -560,7 +578,10 @@ class PersonalInfo extends React.Component {
             gap: "16px",
           }}
         >
-          <Box sx={{ flexGrow: 1, display: "flex", gap: "16px" }}>
+          <Box
+            className="personal-info-container"
+            sx={{ flexGrow: 1, display: "flex", gap: "16px" }}
+          >
             <TextField
               id="firstname"
               label="First Name"
@@ -578,7 +599,10 @@ class PersonalInfo extends React.Component {
               required
             />
           </Box>
-          <Box sx={{ flexGrow: 1, display: "flex", gap: "16px" }}>
+          <Box
+            className="personal-info-container"
+            sx={{ flexGrow: 1, display: "flex", gap: "16px" }}
+          >
             <TextField
               id="email"
               type="email"
@@ -663,7 +687,10 @@ class Education extends React.Component {
               required
             />
           </Box>
-          <Box sx={{ flexGrow: 1, display: "flex", gap: "16px" }}>
+          <Box
+            className="education-date-container"
+            sx={{ flexGrow: 1, display: "flex", gap: "16px" }}
+          >
             <TextField
               id="dateFrom"
               label="From"
@@ -689,7 +716,7 @@ class Education extends React.Component {
               }}
             />
           </Box>
-          <Divider></Divider>
+          {this.props.index === 0 && <Divider></Divider>}
         </Box>
       </Box>
     );
@@ -703,8 +730,13 @@ class AddEducation extends React.Component {
 
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
-        <Button variant="contained" sx={{ width: "150px" }} onClick={this.add}>
+      <Box sx={{ flexGrow: 1 }} className="add-education-button-container">
+        <Button
+          size="large"
+          className="add-education-button"
+          variant="contained"
+          onClick={this.add}
+        >
           Add
         </Button>
       </Box>
@@ -766,7 +798,10 @@ class WorkExperience extends React.Component {
               required
             />
           </Box>
-          <Box sx={{ flexGrow: 1, display: "flex", gap: "16px" }}>
+          <Box
+            className="experience-date-container"
+            sx={{ flexGrow: 1, display: "flex", gap: "16px" }}
+          >
             <TextField
               id="dateFrom"
               label="From"
@@ -790,7 +825,7 @@ class WorkExperience extends React.Component {
               onChange={this.handleUpdate}
             />
           </Box>
-          <Divider></Divider>
+          {this.props.index === 0 && <Divider></Divider>}
         </Box>
       </Box>
     );
@@ -804,8 +839,13 @@ class AddExperience extends React.Component {
 
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
-        <Button variant="contained" sx={{ width: "150px" }} onClick={this.add}>
+      <Box sx={{ flexGrow: 1 }} className="add-experience-button-container">
+        <Button
+          size="large"
+          className="add-experience-button"
+          variant="contained"
+          onClick={this.add}
+        >
           Add
         </Button>
       </Box>
@@ -816,14 +856,15 @@ class AddExperience extends React.Component {
 class CreateCV extends React.Component {
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} className="create-CV-container">
         <Typography variant="h5" component="div">
-          Create your CV
+          Generate your CV
+        </Typography>
+        <Divider></Divider>
+        <Typography variant="subtitle1" component="div">
+          Click to view your CV below!
         </Typography>
         <PreviewButton state={this.props.state}></PreviewButton>
-        <Typography variant="subtitle1" component="div">
-          View your CV below!
-        </Typography>
         {this.props.state.previewButtonClicked && (
           <PreviewCV state={this.props.state}></PreviewCV>
         )}
@@ -836,9 +877,11 @@ class PreviewButton extends React.Component {
   render() {
     return (
       <Button
+        size="large"
         variant="contained"
+        startIcon={<FileOpenIcon />}
         type="submit"
-        sx={{ width: "150px", backgroundColor: "#3f51b5" }}
+        sx={{ width: "100%", backgroundColor: "#3f51b5" }}
       >
         Preview
       </Button>
@@ -850,6 +893,7 @@ class PreviewCV extends React.Component {
   render() {
     return (
       <Box
+        className="preview-CV-container"
         sx={{
           flexGrow: 1,
           margin: "16px",
@@ -860,6 +904,7 @@ class PreviewCV extends React.Component {
       >
         <PersonalInfoPreview state={this.props.state}></PersonalInfoPreview>
         <EducationPreview state={this.props.state}></EducationPreview>
+        <ExperiencePreview state={this.props.state}></ExperiencePreview>
       </Box>
     );
   }
@@ -870,18 +915,20 @@ class PersonalInfoPreview extends React.Component {
     return (
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="h4">Personal Information</Typography>
-        <Divider></Divider>
-        <Typography variant="h5">
+        <Divider
+          className="half-divider"
+          sx={{ marginBottom: "16px" }}
+        ></Divider>
+        <Typography variant="h5" className="nested-preview-item">
           {this.props.state.personalInfo.firstName}{" "}
           {this.props.state.personalInfo.lastName}
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" className="nested-preview-item">
           {this.props.state.personalInfo.email}
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" className="nested-preview-item">
           {this.props.state.personalInfo.phoneNumber}
         </Typography>
-        <Divider></Divider>
       </Box>
     );
   }
@@ -892,7 +939,10 @@ class EducationPreview extends React.Component {
     return (
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="h4">Education</Typography>
-        <Divider></Divider>
+        <Divider
+          className="half-divider"
+          sx={{ marginBottom: "16px" }}
+        ></Divider>
         {this.props.state.education.map((object, i) => {
           return (
             <EducationPreviewItem
@@ -902,8 +952,20 @@ class EducationPreview extends React.Component {
             ></EducationPreviewItem>
           );
         })}
+      </Box>
+    );
+  }
+}
+
+class ExperiencePreview extends React.Component {
+  render() {
+    return (
+      <Box sx={{ flexGrow: 1 }}>
         <Typography variant="h4">Experience</Typography>
-        <Divider></Divider>
+        <Divider
+          className="half-divider"
+          sx={{ marginBottom: "16px" }}
+        ></Divider>
         {this.props.state.experience.map((object, i) => {
           return (
             <ExperiencePreviewItem
@@ -921,7 +983,7 @@ class EducationPreview extends React.Component {
 class EducationPreviewItem extends React.Component {
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} className="nested-preview-item">
         <Typography variant="h6">
           {this.props.state.education[this.props.index].title}
         </Typography>
@@ -933,7 +995,7 @@ class EducationPreviewItem extends React.Component {
             " - " +
             this.props.state.education[this.props.index].dateTo}
         </Typography>
-        <Divider></Divider>
+        <br />
       </Box>
     );
   }
@@ -942,7 +1004,7 @@ class EducationPreviewItem extends React.Component {
 class ExperiencePreviewItem extends React.Component {
   render() {
     return (
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} className="nested-preview-item">
         <Typography variant="h6">
           {this.props.state.experience[this.props.index].title}
         </Typography>
@@ -954,7 +1016,7 @@ class ExperiencePreviewItem extends React.Component {
             " - " +
             this.props.state.experience[this.props.index].dateTo}
         </Typography>
-        <Divider></Divider>
+        <br />
       </Box>
     );
   }
